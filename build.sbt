@@ -25,6 +25,17 @@ ThisBuild / githubWorkflowJavaVersions := Seq(Java11)
 
 sonatypeProfileName := "es.weso"
 
+organization := "es.weso"
+
+developers := List(
+    Developer(
+      id = "labra",
+      name = "Jose Emilio Labra Gayo",
+      email = "jelabra@gmail.com",
+      url = url("https://weso.labra.es")
+    )
+  )
+
 libraryDependencies ++= Seq(
 
   // Spark dependencies.
