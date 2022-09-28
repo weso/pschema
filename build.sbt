@@ -23,6 +23,7 @@ val Java11 = JavaSpec.temurin("11")
 
 ThisBuild / githubWorkflowJavaVersions := Seq(Java11)
 
+sonatypeProfileName := "es.weso"
 
 libraryDependencies ++= Seq(
 
