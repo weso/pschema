@@ -1,0 +1,14 @@
+#Successful Tests
+#Wed Sep 28 18:47:36 UTC 2022
+es.weso.pschema.SubClassInstanceOfSuite=1664390855244
+es.weso.pschema.SparkTestSuite=1664390856539
+es.weso.pschema.CheckLocalSuite=1664390849677
+es.weso.pschema.RepeatedPropsSuite=1664390853053
+es.weso.pschema.ShapeExprSuite=1664390849049
+es.weso.pschema.PaperSampleSuite=1664390855296
+es.weso.pschema.ScholiaTest=1664390855740
+es.weso.pschema.PSchemaSuite=1664390853049
+es.weso.pschema.SchemasSuite=1664390854925
+es.weso.pschema.VProgSuite=1664390849208
+es.weso.pschema.SampleSchemas=1664390855777
+es.weso.pschema.DumpSuite=1664390854937

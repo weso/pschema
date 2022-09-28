@@ -1,0 +1,27 @@
+[0m[[0m[0mdebug[0m] [0m[0mRunning TaskDef(es.weso.pschema.ShapeExprSuite, CustomFingerprint{suite='munit.Suite'}, false, [SuiteSelector])[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunning TaskDef(es.weso.pschema.ScholiaTest, CustomFingerprint{suite='munit.Suite'}, false, [SuiteSelector])[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunning TaskDef(es.weso.pschema.SchemasSuite, CustomFingerprint{suite='munit.Suite'}, false, [SuiteSelector])[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunning TaskDef(es.weso.pschema.CheckLocalSuite, CustomFingerprint{suite='munit.Suite'}, false, [SuiteSelector])[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunning TaskDef(es.weso.pschema.PaperSampleSuite, CustomFingerprint{suite='munit.Suite'}, false, [SuiteSelector])[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunning TaskDef(es.weso.pschema.DumpSuite, CustomFingerprint{suite='munit.Suite'}, false, [SuiteSelector])[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunning TaskDef(es.weso.pschema.PSchemaSuite, CustomFingerprint{suite='munit.Suite'}, false, [SuiteSelector])[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunning TaskDef(es.weso.pschema.SampleSchemas, CustomFingerprint{suite='munit.Suite'}, false, [SuiteSelector])[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunning TaskDef(es.weso.pschema.SparkTestSuite, CustomFingerprint{suite='munit.Suite'}, false, [SuiteSelector])[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunning TaskDef(es.weso.pschema.RepeatedPropsSuite, CustomFingerprint{suite='munit.Suite'}, false, [SuiteSelector])[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunning TaskDef(es.weso.pschema.SubClassInstanceOfSuite, CustomFingerprint{suite='munit.Suite'}, false, [SuiteSelector])[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunning TaskDef(es.weso.pschema.VProgSuite, CustomFingerprint{suite='munit.Suite'}, false, [SuiteSelector])[0m
+[0m[[0m[0mdebug[0m] [0m[0mSummary for munit not available.[0m
+[0m[[0m[0minfo[0m] [0m[0mPassed: Total 16, Failed 0, Errors 0, Passed 16[0m
+[0m[[0m[0mdebug[0m] [0m[0mPassed tests:[0m
+[0m[[0m[0mdebug[0m] [0m[0m	es.weso.pschema.SparkTestSuite[0m
+[0m[[0m[0mdebug[0m] [0m[0m	es.weso.pschema.SubClassInstanceOfSuite[0m
+[0m[[0m[0mdebug[0m] [0m[0m	es.weso.pschema.DumpSuite[0m
+[0m[[0m[0mdebug[0m] [0m[0m	es.weso.pschema.PSchemaSuite[0m
+[0m[[0m[0mdebug[0m] [0m[0m	es.weso.pschema.RepeatedPropsSuite[0m
+[0m[[0m[0mdebug[0m] [0m[0m	es.weso.pschema.PaperSampleSuite[0m
+[0m[[0m[0mdebug[0m] [0m[0m	es.weso.pschema.VProgSuite[0m
+[0m[[0m[0mdebug[0m] [0m[0m	es.weso.pschema.ShapeExprSuite[0m
+[0m[[0m[0mdebug[0m] [0m[0m	es.weso.pschema.SampleSchemas[0m
+[0m[[0m[0mdebug[0m] [0m[0m	es.weso.pschema.SchemasSuite[0m
+[0m[[0m[0mdebug[0m] [0m[0m	es.weso.pschema.CheckLocalSuite[0m
+[0m[[0m[0mdebug[0m] [0m[0m	es.weso.pschema.ScholiaTest[0m

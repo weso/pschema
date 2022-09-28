@@ -1,0 +1,6 @@
+addSbtPlugin("com.codecommit" % "sbt-github-actions" % "0.14.2")
+// addSbtPlugin("org.jetbrains" % "sbt-ide-settings" % "1.1.0")
+// addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "1.0.0")
+// addSbtPlugin("com.github.sbt" % "sbt-git" % "2.0.0")
+addSbtPlugin("org.lyranthe.sbt"  % "partial-unification" % "1.1.2")
+addSbtPlugin("com.github.sbt" % "sbt-ci-release" % "1.5.10")

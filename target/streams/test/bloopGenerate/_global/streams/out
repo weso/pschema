@@ -1,0 +1,4 @@
+[debug] [pschema-test] Classpath dependencies List()
+[debug] [pschema-test] Dependencies from configurations List(pschema)
+[debug] Bloop wrote the configuration of project 'pschema-test' to '/home/labra/pschema/.bloop/pschema-test.json'
+[success] Generated .bloop/pschema-test.json
