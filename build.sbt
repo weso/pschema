@@ -27,6 +27,8 @@ sonatypeProfileName := "es.weso"
 
 organization := "es.weso"
 
+licenses := Seq("MIT" -> url("http://opensource.org/licenses/MIT"))
+
 developers := List(
     Developer(
       id = "labra",
