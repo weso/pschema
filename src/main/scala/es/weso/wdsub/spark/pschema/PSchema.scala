@@ -9,7 +9,6 @@ import cats.data._
 import cats.implicits._
 import scala.reflect.ClassTag
 import org.apache.log4j.Logger
-import es.weso.wbmodel.{PropertyId => WBPropertyId}
 
 /**
  * Pregel Schema validation

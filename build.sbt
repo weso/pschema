@@ -49,35 +49,33 @@ libraryDependencies ++= Seq(
   "org.apache.spark" %% "spark-streaming" % sparkVersion % "provided",
   "org.apache.spark" %% "spark-graphx"    % sparkVersion % "provided",
 
+  // WESO components dependencies.
+  "es.weso" %% "shex"         % shexsVersion,
+  // "es.weso" %% "srdf"         % srdfVersion % Test,
+  // "es.weso" %% "srdfjena"     % srdfVersion % Test,
+  // "es.weso" %% "srdf4j"       % srdfVersion % Test,
+  // "es.weso" %% "utils"        % utilsVersion % Test,
+
   // Wikidata toolkit dependencies.
-  "org.wikidata.wdtk" % "wdtk-dumpfiles"   % wikidataToolkitVersion,
-  "org.wikidata.wdtk" % "wdtk-wikibaseapi" % wikidataToolkitVersion,
-  "org.wikidata.wdtk" % "wdtk-datamodel"   % wikidataToolkitVersion,
-  "org.wikidata.wdtk" % "wdtk-rdf"         % wikidataToolkitVersion,
-  "org.wikidata.wdtk" % "wdtk-storage"     % wikidataToolkitVersion,
-  "org.wikidata.wdtk" % "wdtk-util"        % wikidataToolkitVersion,
+  "org.wikidata.wdtk" % "wdtk-dumpfiles"   % wikidataToolkitVersion % Test,
+  "org.wikidata.wdtk" % "wdtk-wikibaseapi" % wikidataToolkitVersion % Test,
+  "org.wikidata.wdtk" % "wdtk-datamodel"   % wikidataToolkitVersion % Test,
+  "org.wikidata.wdtk" % "wdtk-rdf"         % wikidataToolkitVersion % Test,
+  "org.wikidata.wdtk" % "wdtk-storage"     % wikidataToolkitVersion % Test,
+  "org.wikidata.wdtk" % "wdtk-util"        % wikidataToolkitVersion % Test,
 
   // Jackson dependencies.
-  "com.fasterxml.jackson.core"   % "jackson-databind" % jacksonVersion,
-  "com.fasterxml.jackson.core"   % "jackson-core" % jacksonVersion,
-  "com.fasterxml.jackson.core"   % "jackson-annotations" % jacksonVersion,
-  "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.13.3",
+  "com.fasterxml.jackson.core"   % "jackson-databind" % jacksonVersion % Test,
+  "com.fasterxml.jackson.core"   % "jackson-core" % jacksonVersion % Test,
+  "com.fasterxml.jackson.core"   % "jackson-annotations" % jacksonVersion % Test,
+  "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.13.3" % Test,
 
-  // WESO components dependencies.
-  "es.weso" %% "srdf"         % srdfVersion,
-  "es.weso" %% "srdfjena"     % srdfVersion,
-  "es.weso" %% "srdf4j"       % srdfVersion,
-  "es.weso" %% "utils"        % utilsVersion,
-  "es.weso" %% "shex"         % shexsVersion,
-  "es.weso" %% "wshex"        % shexsVersion,
+  
+  "es.weso" %% "wshex"        % shexsVersion % Test,
 
   // Cats dependencies.
   "org.typelevel" %% "cats-core"    % catsVersion,
   "org.typelevel" %% "cats-kernel"  % catsVersion,
-
-  // Decline dependencies.
-  "com.monovore" %% "decline"        % declineVersion,
-  "com.monovore" %% "decline-effect" % declineVersion,
 
   // Testing dependencies
   "com.github.mrpowers"          %% "spark-fast-tests"    % sparkFastTestsVersion % Test,
@@ -86,8 +84,6 @@ libraryDependencies ++= Seq(
   "org.scalameta" %% "munit"               % munitVersion % Test,
   "org.typelevel" %% "munit-cats-effect-3" % munitEffectVersion % Test,
 
-  // CLI command parsing library.
-  "org.rogach" %% "scallop" % scallopVersion
 )
 
 
