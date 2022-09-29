@@ -23,6 +23,8 @@ val Java11 = JavaSpec.temurin("11")
 
 ThisBuild / githubWorkflowJavaVersions := Seq(Java11)
 
+homepage := Some(url("https://github.com/weso/pschema"))
+
 sonatypeProfileName := "es.weso"
 
 organization := "es.weso"
