@@ -2,6 +2,18 @@
 
 Pregel based schema validation algorithm
 
+# More information
+
+Preprint paper that describes the main motivation for the library and its use case to create subsets of Wikidata (section 5.4): [Creating Knowledge Graphs Subsets using Shape Expressions](https://arxiv.org/abs/2110.11709), [Jose Emilio Labra Gayo](http://labra.weso.es)
+
+# Contributors
+
+- [Jose Emilio Labra Gayo](http://labra.weso.es)
+
+# Software that depends on this library
+
+- [sparkwdsub](https://github.com/weso/sparkwdsub)
+
 ## Publishing to OSS-Sonatype
 
 This project uses [the sbt ci release](https://github.com/olafurpg/sbt-ci-release) plugin for publishing to [OSS Sonatype](https://oss.sonatype.org/).
