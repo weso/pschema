@@ -1,23 +1,58 @@
 package es.weso.wdsub.spark.wbmodel
 
-import es.weso.wbmodel._
 import org.wikidata.wdtk.datamodel.helpers.JsonDeserializer
-import org.apache.spark.graphx._
+
 import DumpUtils._
-import org.apache.spark.SparkContext
+
 import java.nio.file.Path
-import org.apache.spark.rdd.RDD
+
+import org.apache.spark.graphx._
 import org.apache.log4j.Logger
-import es.weso.rdf.nodes.IRI
 import org.apache.spark.storage.StorageLevel
+import org.apache.spark.SparkContext
+import org.apache.spark.sql.SparkSession
+import org.apache.spark.rdd.RDD
+
+import org.graphframes.GraphFrame
+
+import es.weso.rdf.nodes.IRI
+import es.weso.wbmodel._
+import es.weso.wdsub.spark.graphxhelpers.GraphBuilder
+import es.weso.wdsub.spark.graphxhelpers.Vertex
+import org.wikidata.wdtk.datamodel.interfaces.EntityDocument
 
 case class LineParser(site: String = "http://www.wikidata.org/entity/") {
 
-  lazy val jsonDeserializer = new JsonDeserializer(site)
-  lazy val noEntity: Entity = Item(ItemId("Q0", IRI(site + "Q0")), VertexId(0L), Map(), Map(), Map(),site,List(),List())
   @transient lazy val log = Logger.getLogger(getClass.getName)
 
-  def line2Entity(line: String): (Long,Entity) = try {
+  lazy val jsonDeserializer = new JsonDeserializer(site)
+  lazy val noVertex: Vertex[Entity] = Vertex(
+    0L,
+    Item(
+      ItemId("Q0", IRI(site + "Q0")),
+      VertexId(0L),
+      Map(),
+      Map(),
+      Map(),
+      site,
+      List(),
+      List()
+    )
+  )
+
+  def dump2Graph(dump: String, spark: SparkSession): GraphFrame = {
+    val lines = dump.split("\n").filter(!brackets(_)).toList
+    GraphBuilder.buildGraph(
+      lines2Entities(lines),
+      lines2Statements(lines),
+      spark
+    )
+  }
+
+  private def lines2Entities(lines: List[String]): Seq[Vertex[Entity]] =
+    lines.map(line2Entity(_)).toList
+
+  private def line2Entity(line: String): Vertex[Entity] = try {
     val entityDocument = jsonDeserializer.deserializeEntityDocument(line)
     mkEntity(entityDocument)
   } catch {
@@ -25,11 +60,14 @@ case class LineParser(site: String = "http://www.wikidata.org/entity/") {
       log.error(s"""|line2Entity. exception parsing line: ${e.getMessage()}
                     |Line: ${line}
                     |""".stripMargin)
-      (0L, noEntity)
+      noVertex
     }
   }
 
-  def line2Statement(line: String): List[Edge[Statement]] = try {
+  private def lines2Statements(lines: List[String]): Seq[Edge[Statement]] =
+    lines.map(line2Statement(_)).toList.flatten
+
+  private def line2Statement(line: String): Seq[Edge[Statement]] = try {
     val entityDocument = jsonDeserializer.deserializeEntityDocument(line)
     mkStatements(entityDocument)
   } catch {
@@ -41,74 +79,65 @@ case class LineParser(site: String = "http://www.wikidata.org/entity/") {
     }
   }
 
-  def lines2Entities(lines: List[String]): List[(Long,Entity)] =
-    lines.map(line2Entity(_)).toList
-
-  def lines2Statements(lines:List[String]): List[Edge[Statement]] =
-    lines.map(line2Statement(_)).toList.flatten
-
-  def line2EntityStatements(line: String): (Long,Entity,List[Edge[Statement]]) = try {
-    val entityDocument = jsonDeserializer.deserializeEntityDocument(line)
-    val (id, entity) = mkEntity(entityDocument)
-    val ss = mkStatements(entityDocument)
-    (id,entity,ss)
+  private def line2EntityStatements(
+      line: String
+  ): (Vertex[Entity], Seq[Edge[Statement]]) = try {
+    val entityDocument: EntityDocument =
+      jsonDeserializer.deserializeEntityDocument(line)
+    val vertex: Vertex[Entity] = mkEntity(entityDocument)
+    val statements: Seq[Edge[Statement]] = mkStatements(entityDocument)
+    (vertex, statements)
   } catch {
     case e: Throwable => {
-      log.error(s"""|line2EntityStatements: exception parsing line: ${e.getMessage()}
+      log.error(
+        s"""|line2EntityStatements: exception parsing line: ${e.getMessage()}
                     |Line: ${line}
-                    |""".stripMargin)
-      (0L, noEntity, List())
+                    |""".stripMargin
+      )
+      (noVertex, List())
     }
   }
 
-  def dumpPath2Graph(path: Path, sc: SparkContext): Graph[Entity,Statement] = {
-    val fileName = path.toFile().getAbsolutePath()
-    val all: RDD[(Long,Entity, List[Edge[Statement]])] =
-      sc
-        .textFile(fileName)
+  def dumpPath2Graph(path: Path, spark: SparkSession): GraphFrame = {
+    val all: RDD[(Vertex[Entity], Seq[Edge[Statement]])] =
+      spark.sparkContext
+        .textFile(path.toFile().getAbsolutePath())
         .filter(!brackets(_))
         .map(line2EntityStatements(_))
 
-    val vertices: RDD[(Long,Entity)] =
-      all
-        .map { case (id,v,_) => (id,v) }
-
-    val edges: RDD[Edge[Statement]] =
-      all
-        .map { case (_,_, ss) => ss }
-        .flatMap(identity)
-
-    Graph(vertices,edges)
+    rdd2Graph(all, spark)
   }
 
-  def dumpRDD2Graph(dumpLines: RDD[String], sc: SparkContext): Graph[Entity,Statement] = {
-    val all: RDD[(Long,Entity, List[Edge[Statement]])] =
+  def dumpRDD2Graph(
+      dumpLines: RDD[String],
+      spark: SparkSession
+  ): GraphFrame = {
+    val all: RDD[(Vertex[Entity], Seq[Edge[Statement]])] =
       dumpLines
         .filter(!brackets(_))
         .map(line2EntityStatements(_))
 
-    val vertices: RDD[(Long,Entity)] =
-      all
-        .map { case (id,v,_) => (id,v) }
+    rdd2Graph(all, spark)
+  }
 
-    val edges: RDD[Edge[Statement]] =
+  def rdd2Graph( // TODO: this should be removed is repeated in GraphBuilder :(
+      all: RDD[(Vertex[Entity], Seq[Edge[Statement]])],
+      spark: SparkSession
+  ): GraphFrame = {
+    val vertices: RDD[(Long, String)] =
+      all.map { case (v, _) => (v.vertexId, v.value.toString()) }
+
+    val edges: RDD[(Long, Long, String)] =
       all
-        .map { case (_,_, ss) => ss }
+        .map { case (_, ss) =>
+          ss.map(e => (e.srcId, e.dstId, e.attr.toString()))
+        }
         .flatMap(identity)
 
-    Graph(
-      vertices = vertices,
-      edges = edges,
-      defaultVertexAttr = null,
-      edgeStorageLevel = StorageLevel.DISK_ONLY_2,
-      vertexStorageLevel = StorageLevel.DISK_ONLY_2
+    GraphFrame(
+      spark.createDataFrame(vertices).toDF("id", "value"), // vertices
+      spark.createDataFrame(edges).toDF("src", "dst", "attr") // edges
     )
   }
 
-  def dump2Graph(dump:String, sc: SparkContext): Graph[Entity,Statement] = {
-    val lines = dump.split("\n").filter(!brackets(_)).toList
-    val vertices = sc.parallelize(lines2Entities(lines))
-    val edges = sc.parallelize(lines2Statements(lines))
-    Graph(vertices,edges)
-  }
 }
